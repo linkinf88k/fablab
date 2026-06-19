@@ -1,0 +1,13 @@
+﻿/*
+Theme Name: FabLab
+Theme URI: https://github.com/google-deepmind
+Description: A native WordPress theme converted from the FabLab React SPA.
+Version: 1.0.0
+Author: DeepMind Antigravity
+Author URI: https://github.com/google-deepmind
+Text Domain: fablab
+*/
+
+.about-tab-pane image {
+  max-height: 300px !important;
+}
