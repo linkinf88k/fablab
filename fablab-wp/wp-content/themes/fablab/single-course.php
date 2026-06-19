@@ -41,7 +41,7 @@ while ( have_posts() ) :
 				</div>
 
 				<!-- TÊN KHÓA HỌC / Đối tượng / ND khóa học -->
-				<div class="space-y-5">
+				<div class="single-course-info">
 					<h1 class="single-course-title"><?php the_title(); ?></h1>
 
 					<p class="single-course-meta">
@@ -84,14 +84,18 @@ while ( have_posts() ) :
 					Hãy để lại thông tin liên hệ chính xác để chuyên viên tuyển sinh của FABLAB liên hệ sắp xếp buổi học thử miễn phí phù hợp cực chất cho bé.
 				</p>
 
-				<form id="contact-form-course" class="single-course-register-form">
+				<form id="contact-form-course" class="fablab-lead-form single-course-register-form">
 					<input type="hidden" name="course" value="<?php echo esc_attr( get_the_title() ); ?>" />
-					<input type="text" required placeholder="Họ và tên..." />
-					<input type="text" required placeholder="Số điện thoại hoặc Email..." />
+					<input type="text" name="lead_name" required placeholder="Họ và tên..." />
+					<input type="text" name="lead_contact" required placeholder="Số điện thoại hoặc Email..." />
 					<div class="single-course-register-submit">
 						<button type="submit">Đăng ký nhận cuộc gọi</button>
 					</div>
 				</form>
+				<div class="fablab-lead-success hidden">
+					<p class="single-course-register-heading" style="margin-top:0;">✓ Cảm ơn bạn đã đăng ký!</p>
+					<p class="single-course-register-text">Chuyên viên tuyển sinh của FABLAB sẽ liên hệ lại với bạn trong thời gian sớm nhất.</p>
+				</div>
 			</div>
 
 		</div>

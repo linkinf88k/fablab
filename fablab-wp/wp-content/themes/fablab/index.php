@@ -417,7 +417,7 @@ for ( $i = 1; $i <= 6; $i++ ) {
                         </div>
                         <h3 class="font-extrabold text-sm text-gray-900 mb-1">Lập Trình Scratch</h3>
                         <p class="text-gray-500 text-[11px] leading-relaxed">
-                            Tải đồ họa kéo thả, tư duy rẽ nhánh logic tự nhiên, tạo trò chơi hoạt hình.
+                            Học đồ họa kéo thả, tư duy rẽ nhánh logic tự nhiên, tạo trò chơi hoạt hình.
                         </p>
                         <div
                             class="hidden md:block absolute top-1/2 -right-4 -translate-y-1/2 z-10 w-8 text-[#f47920] font-black text-lg">
@@ -482,7 +482,7 @@ for ( $i = 1; $i <= 6; $i++ ) {
             </div>
 
             <p class="text-[11px] text-gray-400 mt-8 max-w-xl mx-auto text-center">
-                * Lộ trình học tập cá nhân hóa được đo lường trực khoa theo tiến trình thu nhận kiến thức của từng học
+                * Lộ trình học tập cá nhân hóa được đo lường trực quan theo tiến trình thu nhận kiến thức của từng học
                 viên
                 suốt quá trình trải nghiệm sáng chế tại Lab.
             </p>
@@ -554,11 +554,11 @@ for ( $i = 1; $i <= 6; $i++ ) {
                     </p>
                 </div>
 
-                <form id="contact-form-home" class="max-w-2xl mx-auto space-y-4">
+                <form id="contact-form-home" class="fablab-lead-form max-w-2xl mx-auto space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <input type="text" id="contact-name" required placeholder="Họ và tên..."
+                        <input type="text" id="contact-name" name="lead_name" required placeholder="Họ và tên..."
                             class="w-full px-5 py-3.5 rounded-full border border-amber-400 focus:border-[#f47920] focus:ring-2 focus:ring-[#f47920]/20 bg-white text-gray-900 placeholder-gray-400 text-sm focus:outline-none text-center font-bold shadow-inner" />
-                        <input type="text" id="contact-info" required placeholder="Số điện thoại hoặc Email..."
+                        <input type="text" id="contact-info" name="lead_contact" required placeholder="Số điện thoại hoặc Email..."
                             class="w-full px-5 py-3.5 rounded-full border border-amber-400 focus:border-[#f47920] focus:ring-2 focus:ring-[#f47920]/20 bg-white text-gray-900 placeholder-gray-400 text-sm focus:outline-none text-center font-bold shadow-inner" />
                     </div>
 
@@ -569,6 +569,10 @@ for ( $i = 1; $i <= 6; $i++ ) {
                         </button>
                     </div>
                 </form>
+                <div class="fablab-lead-success hidden max-w-2xl mx-auto text-center">
+                    <p class="text-[#f47920] font-extrabold text-lg">✓ Cảm ơn bạn đã đăng ký!</p>
+                    <p class="text-gray-600 text-sm mt-1">Chuyên viên tuyển sinh của FABLAB sẽ liên hệ lại với bạn trong thời gian sớm nhất.</p>
+                </div>
 
             </div>
 

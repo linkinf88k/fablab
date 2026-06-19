@@ -132,7 +132,7 @@ if ( have_posts() ) {
 				<h2 class="text-2xl md:text-3xl font-black text-slate-900">
 					3. CHƯƠNG TRÌNH HỢP TÁC CHIẾN LƯỢC
 				</h2>
-				<div class="space-y-4 text-sm text-gray-750 leading-relaxed font-normal">
+				<div class="space-y-4 text-sm text-gray-700 leading-relaxed font-normal">
 					<p>
 						FABLAB Bách Khoa không ngừng hợp tác đa phương cùng các tổ chức công nghệ hàng đầu toàn cầu và các trường học phổ thông chất lượng cao trên cả nước. 
 					</p>

@@ -49,9 +49,17 @@
   border-color: var(--fablab-primary) !important;
 }
 
-/* 3) General link hover */
+/* 3) General link hover.
+   This is an ID selector, so it beats any class-based hover color rule
+   that doesn't use !important. It used to force every link to white text
+   on hover regardless of background, which made plain links on white/light
+   cards (sidebar widgets, pagination, back-links, WYSIWYG content links)
+   disappear on hover. Orange is a safe default since most of the site is
+   light-background; components that intentionally show white text on an
+   orange/dark hover background already set that with !important and stay
+   unaffected. */
 #main-content-layout a:hover {
-  color: #fff;
+  color: var(--fablab-primary);
 }
 
 /* Orange background => white text */
@@ -1397,6 +1405,12 @@ input[type="submit"].hover\:bg-\[\#f47920\]:hover,
   border-radius: 0.375rem;
 }
 
+.single-course-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .single-course-title {
   margin: 0;
   color: #111827;
@@ -1407,6 +1421,8 @@ input[type="submit"].hover\:bg-\[\#f47920\]:hover,
 
 .single-course-meta {
   margin: 0;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f0f1f3;
   font-size: 0.9375rem;
   color: #374151;
 }
@@ -1419,7 +1435,7 @@ input[type="submit"].hover\:bg-\[\#f47920\]:hover,
   margin: 0;
   color: #4b5563;
   font-size: 0.9375rem;
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
 .single-course-stats {
@@ -1427,7 +1443,6 @@ input[type="submit"].hover\:bg-\[\#f47920\]:hover,
   flex-wrap: wrap;
   align-items: center;
   gap: 1rem 2.5rem;
-  padding-top: 0.25rem;
 }
 
 .single-course-stat {
@@ -1447,7 +1462,7 @@ input[type="submit"].hover\:bg-\[\#f47920\]:hover,
 
 .single-course-cta {
   display: inline-block;
-  margin-top: 0.75rem;
+  margin-top: 0.25rem;
   padding: 0.85rem 2rem;
   background: var(--fablab-primary);
   color: #ffffff !important;
@@ -1459,6 +1474,7 @@ input[type="submit"].hover\:bg-\[\#f47920\]:hover,
   border-radius: 999px;
   box-shadow: 0 12px 24px rgba(244, 121, 32, 0.3);
   transition: all 0.25s ease;
+  width: max-content;
 }
 
 .single-course-cta:hover {
@@ -1688,7 +1704,7 @@ input[type="submit"].hover\:bg-\[\#f47920\]:hover,
 .fablab-banner-content {
   position: relative;
   z-index: 1;
-  max-width: 42rem;
+  max-width: 46rem;
   margin: 0 auto;
   padding: 2.5rem 1.5rem;
   text-align: center;
@@ -1931,4 +1947,940 @@ input[type="submit"].hover\:bg-\[\#f47920\]:hover,
   color: var(--fablab-primary);
   width: 1rem;
   height: 1rem;
+}
+
+/* 21) Courses Page (page-khoa-hoc.php) - Programs Overview (5 cards) */
+.programs-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .programs-overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .programs-overview-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .programs-overview-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.program-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff;
+  border: 1px solid #f0f1f3;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.program-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+}
+
+.program-card-image-wrap {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.program-card-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.program-card:hover .program-card-image-wrap img {
+  transform: scale(1.06);
+}
+
+.program-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.25rem;
+  gap: 0.75rem;
+}
+
+.program-card-title {
+  margin: 0;
+  color: #111827;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.program-card-desc {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.825rem;
+  line-height: 1.6;
+}
+
+.program-card-highlights {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.program-card-highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  color: #374151;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.program-card-highlights svg {
+  flex: 0 0 auto;
+  width: 0.95rem;
+  height: 0.95rem;
+  margin-top: 0.15rem;
+  color: var(--fablab-primary);
+}
+
+.program-card-cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+  padding: 0.55rem 1.1rem;
+  border: 2px solid var(--fablab-primary);
+  border-radius: 999px;
+  color: var(--fablab-primary) !important;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.program-card-cta:hover {
+  background: var(--fablab-primary);
+  color: #ffffff !important;
+}
+
+/* 22) Courses Page - Study Format (Offline / Online) */
+.study-format-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+}
+
+@media (min-width: 768px) {
+  .study-format-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.study-format-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #ffffff;
+  border: 1px solid #f0f1f3;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.study-format-icon-wrap {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(244, 121, 32, 0.1);
+}
+
+.study-format-icon-wrap svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--fablab-primary);
+}
+
+.study-format-title {
+  margin: 0;
+  color: #111827;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.study-format-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex: 1;
+}
+
+.study-format-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: #374151;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.study-format-list svg {
+  flex: 0 0 auto;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.15rem;
+  color: var(--fablab-primary);
+}
+
+.study-format-cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding: 0.85rem 1.85rem;
+  background: var(--fablab-primary);
+  color: #ffffff !important;
+  font-weight: 800;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 999px;
+  box-shadow: 0 12px 24px rgba(244, 121, 32, 0.3);
+  transition: all 0.25s ease;
+}
+
+.study-format-cta:hover {
+  background: #df6a17;
+  transform: translateY(-2px);
+}
+
+/* 23) Courses Page - Teachers Carousel (6 cells, autoplay + arrows) */
+.teachers-carousel-wrap {
+  position: relative;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.teachers-carousel-viewport {
+  overflow: hidden;
+}
+
+.teachers-carousel-track {
+  display: flex;
+  transition: transform 0.45s ease;
+}
+
+.teacher-card {
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding: 0 0.75rem;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .teacher-card {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .teacher-card {
+    flex: 0 0 33.3333%;
+    max-width: 33.3333%;
+  }
+}
+
+.teacher-card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  background: #ffffff;
+  border: 1px solid #f0f1f3;
+  border-radius: 1.25rem;
+  padding: 1.75rem 1.25rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.teacher-card-photo {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 3px solid rgba(244, 121, 32, 0.2);
+  margin-bottom: 1rem;
+}
+
+.teacher-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.teacher-card-name {
+  margin: 0 0 0.5rem;
+  color: #111827;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.teacher-card-achievement {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.carousel-arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #f0f1f3;
+  border-radius: 999px;
+  color: var(--fablab-primary);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.carousel-arrow-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.carousel-arrow-btn:hover {
+  background: var(--fablab-primary);
+  color: #ffffff !important;
+}
+
+.carousel-arrow-btn.carousel-arrow-prev {
+  left: -0.5rem;
+}
+
+.carousel-arrow-btn.carousel-arrow-next {
+  right: -0.5rem;
+}
+
+.carousel-arrow-btn.carousel-arrow-prev svg {
+  transform: rotate(180deg);
+}
+
+@media (min-width: 1024px) {
+  .carousel-arrow-btn.carousel-arrow-prev {
+    left: -3.5rem;
+  }
+
+  .carousel-arrow-btn.carousel-arrow-next {
+    right: -3.5rem;
+  }
+}
+
+/* 24) Courses Page - Experience Gallery + Lightbox */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.gallery-item {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  background: #f3f4f6;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.08);
+}
+
+.gallery-lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(15, 23, 42, 0.88);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease;
+}
+
+.gallery-lightbox-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.gallery-lightbox-modal img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.gallery-lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-radius: 999px;
+  color: #111827;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.gallery-lightbox-close svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* 25) Courses Page - the shared inc/course-catalog.php partial assumes it's
+   the first element on the page (pt-24 clears the fixed header). On
+   page-khoa-hoc.php it's now embedded after the Programs Overview section,
+   so that top offset would double up with the section above it. Scoped to
+   this wrapper only. */
+#khoa-hoc-catalog-embed #courses-catalog-page {
+  padding-top: 0;
+}
+
+/* 26) Course Category Archive (taxonomy-course_category.php) - Roadmap banner */
+.category-roadmap-banner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 280px;
+  margin-top: 0;
+  padding-top: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .category-roadmap-banner {
+    min-height: 340px;
+    padding-top: 96px;
+  }
+}
+
+.category-roadmap-banner-subtitle {
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.category-roadmap-banner-wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 70px;
+  z-index: 2;
+  line-height: 0;
+}
+
+.category-roadmap-banner-wave svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .category-roadmap-banner-wave {
+    height: 100px;
+  }
+}
+
+/* 27) Course Category Archive - Zigzag course roadmap list */
+.roadmap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.roadmap-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.75rem;
+  background: #ffffff;
+  border: 1px solid #f0f1f3;
+  border-radius: 1.5rem;
+  padding: 1.75rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.roadmap-row:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+}
+
+@media (min-width: 768px) {
+  .roadmap-row {
+    flex-direction: row;
+  }
+
+  .roadmap-row.is-reversed {
+    flex-direction: row-reverse;
+  }
+}
+
+.roadmap-image-col {
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .roadmap-image-col {
+    width: 50%;
+  }
+}
+
+.roadmap-step-badge {
+  position: absolute;
+  top: -0.75rem;
+  left: -0.75rem;
+  z-index: 2;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fablab-primary);
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 1rem;
+  border-radius: 999px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 6px 14px rgba(244, 121, 32, 0.35);
+}
+
+.roadmap-image-wrap {
+  aspect-ratio: 4 / 3;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  background: #f3f4f6;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
+}
+
+.roadmap-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.roadmap-text-col {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .roadmap-text-col {
+    text-align: left;
+  }
+}
+
+.roadmap-course-title {
+  margin: 0;
+  color: #111827;
+  font-size: 1.375rem;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.roadmap-course-desc {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.roadmap-course-highlights {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .roadmap-course-highlights {
+    align-items: flex-start;
+  }
+}
+
+.roadmap-course-highlights li {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #4b5563;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.roadmap-course-highlights svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--fablab-primary);
+}
+
+.roadmap-course-link {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+  padding: 0.6rem 1.35rem;
+  border: 2px solid var(--fablab-primary);
+  border-radius: 999px;
+  color: var(--fablab-primary) !important;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+@media (min-width: 768px) {
+  .roadmap-course-link {
+    align-self: flex-start;
+  }
+}
+
+.roadmap-course-link:hover {
+  background: var(--fablab-primary);
+  color: #ffffff !important;
+  box-shadow: 0 8px 18px rgba(244, 121, 32, 0.28);
+}
+
+.roadmap-course-link svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  color: inherit;
+}
+
+.roadmap-register-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  background: var(--fablab-primary);
+  color: #ffffff !important;
+  font-weight: 800;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 999px;
+  box-shadow: 0 14px 28px rgba(244, 121, 32, 0.32);
+  transition: all 0.25s ease;
+}
+
+.roadmap-register-cta:hover {
+  background: #df6a17;
+  transform: translateY(-2px);
+}
+
+/* 28) News Page (page-tin-tuc.php) - Section titles + post grids.
+   Page used Tailwind's space-y-14 for the top-level section gaps, but that
+   utility isn't in the compiled main.css (only a handful of space-y-* sizes
+   got generated), so it silently applied a 0 gap — sections sat flush
+   against each other. Dedicated classes here replace it with a real gap. */
+.tin-tuc-page-sections > * + * {
+  margin-top: 4rem;
+}
+
+.tin-tuc-main-sections > * + * {
+  margin-top: 4rem;
+}
+
+.tin-tuc-section-title {
+  margin: 0 0 1.5rem;
+  padding-left: 0.9rem;
+  border-left: 4px solid var(--fablab-primary);
+  color: #111827;
+  font-size: 1.375rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.tin-tuc-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .tin-tuc-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.tin-tuc-card-lead {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.tin-tuc-empty {
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 1px dashed #e5e7eb;
+  border-radius: 1rem;
+  color: #9ca3af;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* 29) News Page - Pagination */
+.tin-tuc-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.tin-tuc-pagination .page-numbers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #f0f1f3;
+  color: #374151;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.tin-tuc-pagination a.page-numbers:hover {
+  border-color: var(--fablab-primary);
+  color: var(--fablab-primary);
+}
+
+.tin-tuc-pagination .page-numbers.current {
+  background: var(--fablab-primary);
+  border-color: var(--fablab-primary);
+  color: #ffffff;
+}
+
+.tin-tuc-pagination .page-numbers.dots {
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+}
+
+/* 30) News Page - Sidebar widgets */
+.tin-tuc-sidebar-widget {
+  background: #ffffff;
+  border: 1px solid #f0f1f3;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+.tin-tuc-sidebar-widget-title {
+  margin: 0 0 1.1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 2px solid #f0f1f3;
+  color: #111827;
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.tin-tuc-sidebar-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.tin-tuc-sidebar-list li:not(:last-child) {
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #f6f6f7;
+}
+
+.tin-tuc-sidebar-list a {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  color: #374151;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.tin-tuc-sidebar-list a:hover {
+  color: var(--fablab-primary);
+}
+
+.tin-tuc-sidebar-list-arrow {
+  flex: 0 0 auto;
+  color: var(--fablab-primary);
+  font-weight: 800;
+}
+
+/* 31) News Page - Event Calendar strip */
+.event-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .event-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.event-card {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border: 1px solid #f0f1f3;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.12);
+}
+
+.event-card-image-wrap {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.event-card-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.event-card:hover .event-card-image-wrap img {
+  transform: scale(1.06);
+}
+
+.event-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.event-card-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: max-content;
+  padding: 0.3rem 0.75rem;
+  background: rgba(244, 121, 32, 0.1);
+  color: var(--fablab-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  border-radius: 999px;
+}
+
+.event-card-date svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.event-card-title {
+  margin: 0;
+  color: #111827;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.4;
 }

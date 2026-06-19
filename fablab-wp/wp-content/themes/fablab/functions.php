@@ -60,9 +60,16 @@ function fablab_scripts() {
 	$theme_overrides_ver  = file_exists( $theme_overrides_path ) ? (string) filemtime( $theme_overrides_path ) : '1.0.0';
 	wp_enqueue_style( 'fablab-theme-overrides', get_template_directory_uri() . '/assets/theme-overrides.css', array( 'fablab-main' ), $theme_overrides_ver );
 
-	// Enqueue Vanilla JS scripts (to be created in Phase 8)
+	// Enqueue Vanilla JS scripts
 	if ( file_exists( get_template_directory() . '/assets/js/nav.js' ) ) {
-		wp_enqueue_script( 'fablab-nav', get_template_directory_uri() . '/assets/js/nav.js', array(), '1.0.0', true );
+		$nav_js_path = get_template_directory() . '/assets/js/nav.js';
+		$nav_js_ver  = (string) filemtime( $nav_js_path );
+		wp_enqueue_script( 'fablab-nav', get_template_directory_uri() . '/assets/js/nav.js', array(), $nav_js_ver, true );
+	}
+	if ( file_exists( get_template_directory() . '/assets/js/forms.js' ) ) {
+		$forms_js_path = get_template_directory() . '/assets/js/forms.js';
+		$forms_js_ver  = (string) filemtime( $forms_js_path );
+		wp_enqueue_script( 'fablab-forms', get_template_directory_uri() . '/assets/js/forms.js', array(), $forms_js_ver, true );
 	}
 	if ( file_exists( get_template_directory() . '/assets/js/banner-slider.js' ) ) {
 		wp_enqueue_script( 'fablab-banner-slider', get_template_directory_uri() . '/assets/js/banner-slider.js', array(), '1.0.0', true );
@@ -77,17 +84,15 @@ function fablab_scripts() {
 		$activities_tabs_js_ver  = (string) filemtime( $activities_tabs_js_path );
 		wp_enqueue_script( 'fablab-activities-tabs', get_template_directory_uri() . '/assets/js/activities-tabs.js', array(), $activities_tabs_js_ver, true );
 	}
-	if ( file_exists( get_template_directory() . '/assets/js/facilities-carousel.js' ) ) {
-		wp_enqueue_script( 'fablab-facilities-carousel', get_template_directory_uri() . '/assets/js/facilities-carousel.js', array(), '1.0.0', true );
+	if ( file_exists( get_template_directory() . '/assets/js/teachers-carousel.js' ) ) {
+		$teachers_carousel_js_path = get_template_directory() . '/assets/js/teachers-carousel.js';
+		$teachers_carousel_js_ver  = (string) filemtime( $teachers_carousel_js_path );
+		wp_enqueue_script( 'fablab-teachers-carousel', get_template_directory_uri() . '/assets/js/teachers-carousel.js', array(), $teachers_carousel_js_ver, true );
 	}
-	if ( file_exists( get_template_directory() . '/assets/js/tabs.js' ) ) {
-		wp_enqueue_script( 'fablab-tabs', get_template_directory_uri() . '/assets/js/tabs.js', array(), '1.0.0', true );
-	}
-	if ( file_exists( get_template_directory() . '/assets/js/modal.js' ) ) {
-		wp_enqueue_script( 'fablab-modal', get_template_directory_uri() . '/assets/js/modal.js', array(), '1.0.0', true );
-	}
-	if ( file_exists( get_template_directory() . '/assets/js/courses-filter.js' ) ) {
-		wp_enqueue_script( 'fablab-courses-filter', get_template_directory_uri() . '/assets/js/courses-filter.js', array(), '1.0.0', true );
+	if ( file_exists( get_template_directory() . '/assets/js/gallery-lightbox.js' ) ) {
+		$gallery_lightbox_js_path = get_template_directory() . '/assets/js/gallery-lightbox.js';
+		$gallery_lightbox_js_ver  = (string) filemtime( $gallery_lightbox_js_path );
+		wp_enqueue_script( 'fablab-gallery-lightbox', get_template_directory_uri() . '/assets/js/gallery-lightbox.js', array(), $gallery_lightbox_js_ver, true );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'fablab_scripts' );
@@ -222,6 +227,18 @@ add_action( 'init', 'fablab_seed_course_category_terms', 11 );
  * See inc/acf-fields.php.
  */
 require_once get_template_directory() . '/inc/acf-fields.php';
+
+/**
+ * Shared course_category metadata (slug, name, image, description,
+ * highlights). See inc/program-categories.php.
+ */
+require_once get_template_directory() . '/inc/program-categories.php';
+
+/**
+ * Paginated post-grid renderer shared by page-tin-tuc.php's category
+ * sections. See inc/news-helpers.php.
+ */
+require_once get_template_directory() . '/inc/news-helpers.php';
 
 /**
  * One-time data seeder (courses + news posts). See inc/seed-data.php.
@@ -529,6 +546,77 @@ function fablab_customize_register( $wp_customize ) {
 		'type'    => 'text',
 	) );
 
+	// --- Page Banners: Courses / News / Schedule (same .fablab-banner hero as
+	//     About & Contact). Registered in a loop since the three sections are
+	//     identical apart from their default copy/image. ---
+	$fablab_page_banners = array(
+		'khoa_hoc'       => array(
+			'section_title' => __( 'FabLab Courses Page Banner', 'fablab' ),
+			'description'   => __( 'Ảnh nền, tiêu đề và mô tả phụ ở đầu trang Khóa học.', 'fablab' ),
+			'image'         => 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80',
+			'title'         => 'CHƯƠNG TRÌNH KHÓA HỌC',
+			'subtitle'      => 'Các khóa học công nghệ chuẩn hóa BK Holdings dành cho học sinh từ 6 - 18 tuổi',
+		),
+		'tin_tuc'        => array(
+			'section_title' => __( 'FabLab News Page Banner', 'fablab' ),
+			'description'   => __( 'Ảnh nền, tiêu đề và mô tả phụ ở đầu trang Tin tức.', 'fablab' ),
+			'image'         => 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1600&q=80',
+			'title'         => 'TIN TỨC HOẠT ĐỘNG - SỰ KIỆN',
+			'subtitle'      => 'Tin tức về các cuộc thi công nghệ, hoạt động nội bộ sáng tạo và chương trình hợp tác của FABLAB',
+		),
+		'lich_khai_giang' => array(
+			'section_title' => __( 'FabLab Schedule Page Banner', 'fablab' ),
+			'description'   => __( 'Ảnh nền, tiêu đề và mô tả phụ ở đầu trang Lịch khai giảng.', 'fablab' ),
+			'image'         => 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80',
+			'title'         => 'LỊCH KHAI GIẢNG KHÓA MỚI 2026',
+			'subtitle'      => 'Lịch khai giảng định kỳ hằng tuần tại hai cơ sở đào tạo của FABLAB Bách Khoa',
+		),
+	);
+
+	$banner_priority = 33;
+	foreach ( $fablab_page_banners as $key => $banner ) {
+		$section_id = "fablab_{$key}_banner";
+
+		$wp_customize->add_section( $section_id, array(
+			'title'       => $banner['section_title'],
+			'priority'    => $banner_priority++,
+			'description' => $banner['description'],
+		) );
+
+		$wp_customize->add_setting( "fablab_{$key}_banner_image", array(
+			'default'           => $banner['image'],
+			'transport'         => 'refresh',
+			'sanitize_callback' => 'esc_url_raw',
+		) );
+		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "fablab_{$key}_banner_image", array(
+			'label'    => __( 'Ảnh nền Banner', 'fablab' ),
+			'section'  => $section_id,
+			'settings' => "fablab_{$key}_banner_image",
+		) ) );
+
+		$wp_customize->add_setting( "fablab_{$key}_banner_title", array(
+			'default'           => $banner['title'],
+			'transport'         => 'refresh',
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( "fablab_{$key}_banner_title", array(
+			'label'   => __( 'Tiêu đề Banner', 'fablab' ),
+			'section' => $section_id,
+			'type'    => 'text',
+		) );
+
+		$wp_customize->add_setting( "fablab_{$key}_banner_subtitle", array(
+			'default'           => $banner['subtitle'],
+			'transport'         => 'refresh',
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( "fablab_{$key}_banner_subtitle", array(
+			'label'   => __( 'Mô tả phụ Banner', 'fablab' ),
+			'section' => $section_id,
+			'type'    => 'text',
+		) );
+	}
+
 	// --- Contact Info (shared by footer.php and page-lien-he.php) ---
 	$wp_customize->add_section( 'fablab_contact_info', array(
 		'title'       => __( 'FabLab Contact Info', 'fablab' ),
@@ -724,6 +812,112 @@ function fablab_customize_register( $wp_customize ) {
 			'section'     => 'fablab_partners',
 			'type'        => 'url',
 		) );
+	}
+
+	// --- Courses Page: Teachers Carousel (6 giáo viên) ---
+	$wp_customize->add_section( 'fablab_khoa_hoc_teachers', array(
+		'title'       => __( 'Trang Khóa Học - Đội Ngũ Giáo Viên (6)', 'fablab' ),
+		'priority'    => 35,
+		'description' => __( 'Ảnh, họ tên và thành tích giáo viên hiển thị ở carousel trang Khóa học.', 'fablab' ),
+	) );
+
+	$teacher_defaults = array(
+		1 => array(
+			'name'        => 'ThS. Nguyễn Văn An',
+			'achievement' => 'Giảng viên CNTT Đại học Bách Khoa Hà Nội. 8 năm kinh nghiệm đào tạo lập trình thiếu nhi. Dẫn dắt 3 đội tuyển đạt giải Tin học trẻ Toàn quốc.',
+			'image'       => 'https://i.pravatar.cc/300?img=11',
+		),
+		2 => array(
+			'name'        => 'CN. Trần Thị Bích',
+			'achievement' => 'Cựu sinh viên xuất sắc ngành Khoa học máy tính. Chuyên gia thiết kế giáo trình Scratch & Python cho trẻ em. 5 năm giảng dạy tại FABLAB.',
+			'image'       => 'https://i.pravatar.cc/300?img=12',
+		),
+		3 => array(
+			'name'        => 'ThS. Lê Hoàng Nam',
+			'achievement' => 'Kỹ sư Robotics, từng huấn luyện đội thi Robocon đạt giải Ba toàn quốc. Đam mê truyền cảm hứng STEM cho học sinh.',
+			'image'       => 'https://i.pravatar.cc/300?img=13',
+		),
+		4 => array(
+			'name'        => 'CN. Phạm Thu Hà',
+			'achievement' => 'Chuyên gia Game Development với Unity. Từng phát hành 2 game indie trên Steam. Giảng dạy lập trình game tại FABLAB từ 2022.',
+			'image'       => 'https://i.pravatar.cc/300?img=14',
+		),
+		5 => array(
+			'name'        => 'ThS. Đỗ Quang Huy',
+			'achievement' => 'Huấn luyện viên đội tuyển Tin học trẻ bảng C nhiều năm liền. Cựu thí sinh Olympic Tin học Quốc gia.',
+			'image'       => 'https://i.pravatar.cc/300?img=15',
+		),
+		6 => array(
+			'name'        => 'CN. Vũ Minh Anh',
+			'achievement' => 'Chuyên gia luyện thi THPT Quốc gia môn Tin học. Tỷ lệ học sinh đạt điểm 8+ trên 90% qua các năm giảng dạy.',
+			'image'       => 'https://i.pravatar.cc/300?img=16',
+		),
+	);
+
+	for ( $i = 1; $i <= 6; $i++ ) {
+		$wp_customize->add_setting( "fablab_teacher_{$i}_name", array(
+			'default'           => $teacher_defaults[ $i ]['name'],
+			'transport'         => 'refresh',
+			'sanitize_callback' => 'sanitize_text_field',
+		) );
+		$wp_customize->add_control( "fablab_teacher_{$i}_name", array(
+			'label'   => sprintf( __( 'Giáo viên %d - Họ và tên', 'fablab' ), $i ),
+			'section' => 'fablab_khoa_hoc_teachers',
+			'type'    => 'text',
+		) );
+
+		$wp_customize->add_setting( "fablab_teacher_{$i}_achievement", array(
+			'default'           => $teacher_defaults[ $i ]['achievement'],
+			'transport'         => 'refresh',
+			'sanitize_callback' => 'sanitize_textarea_field',
+		) );
+		$wp_customize->add_control( "fablab_teacher_{$i}_achievement", array(
+			'label'   => sprintf( __( 'Giáo viên %d - Thành tích', 'fablab' ), $i ),
+			'section' => 'fablab_khoa_hoc_teachers',
+			'type'    => 'textarea',
+		) );
+
+		$wp_customize->add_setting( "fablab_teacher_{$i}_image", array(
+			'default'           => $teacher_defaults[ $i ]['image'],
+			'transport'         => 'refresh',
+			'sanitize_callback' => 'esc_url_raw',
+		) );
+		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "fablab_teacher_{$i}_image", array(
+			'label'    => sprintf( __( 'Giáo viên %d - Ảnh', 'fablab' ), $i ),
+			'section'  => 'fablab_khoa_hoc_teachers',
+			'settings' => "fablab_teacher_{$i}_image",
+		) ) );
+	}
+
+	// --- Courses Page: Experience Gallery (8 ảnh) ---
+	$wp_customize->add_section( 'fablab_khoa_hoc_gallery', array(
+		'title'       => __( 'Trang Khóa Học - Hình Ảnh Trải Nghiệm (8)', 'fablab' ),
+		'priority'    => 36,
+		'description' => __( 'Ảnh thực tế hiển thị ở mục "Hình ảnh học tập trải nghiệm" trang Khóa học. Click vào ảnh sẽ xem full màn hình.', 'fablab' ),
+	) );
+
+	$gallery_defaults = array(
+		1 => 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=800&q=80',
+		2 => 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80',
+		3 => 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=800&q=80',
+		4 => 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80',
+		5 => 'https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&w=800&q=80',
+		6 => 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80',
+		7 => 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80',
+		8 => 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80',
+	);
+
+	for ( $i = 1; $i <= 8; $i++ ) {
+		$wp_customize->add_setting( "fablab_gallery_{$i}_image", array(
+			'default'           => $gallery_defaults[ $i ],
+			'transport'         => 'refresh',
+			'sanitize_callback' => 'esc_url_raw',
+		) );
+		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "fablab_gallery_{$i}_image", array(
+			'label'    => sprintf( __( 'Ảnh %d', 'fablab' ), $i ),
+			'section'  => 'fablab_khoa_hoc_gallery',
+			'settings' => "fablab_gallery_{$i}_image",
+		) ) );
 	}
 }
 add_action( 'customize_register', 'fablab_customize_register' );

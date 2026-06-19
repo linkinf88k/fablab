@@ -21,7 +21,7 @@ get_header();
 			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 				<header class="entry-header mb-8 text-center">
 					<?php the_title( '<h1 class="entry-title text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight">', '</h1>' ); ?>
-					<div class="w-20 h-1.5 bg-[#f47920] mx-auto rounded-full mt-4"></div>
+					<div class="w-16 h-1 bg-[#f47920] mx-auto rounded-full mt-2"></div>
 				</header>
 
 				<div class="entry-content text-gray-700 leading-relaxed max-w-4xl mx-auto space-y-4 font-normal">
